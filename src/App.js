@@ -1,26 +1,62 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
+import axios from 'axios'
+import { Transactions } from './components/Transactions';
+import { Operations } from './components/Operations';
+import './App.css'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor() {
+    super()
+    this.state = {
+      data: []
+    }
+  }
+
+  async getData() {
+    let trans = await axios.get("http://localhost:8080/transactions")
+    console.log("trans", trans)
+    this.setState({ data: trans.data })
+  }
+
+  componentDidMount() {
+    this.getData()
+  }
+
+  async postData(data) {
+    await axios.post("http://localhost:8080/transaction", data)
+  }
+
+  getBalance = () => {
+    let balance = 0
+    this.state.data.forEach(s => balance += s.amount)
+    return balance
+  }
+
+  // updateData = (data) => {
+  //   console.log("data", data)
+  //   let newData = [...this.state.data]
+  //   newData.push(data)
+  //   this.setState({
+  //     data: newData
+  //   }, () => console.log(this.state.data))
+  // }
+
+  render() {
+    return (
+      <Router>
+        <div className="App">
+          <div id="home-background">Expenses</div>
+          <div id="main-links">
+            <Redirect to="/" />
+          </div>
+          <Route path="/" exact render={() => <Operations data={this.state.data} postData={this.postData} /*updateData={this.updateData}*//>} />
+          <h3>${this.getBalance()}</h3>
+          <Route path="/" exact render={() => <Transactions data={this.state.data} />} />
+        </div>
+      </Router>
+    )
+  }
 }
 
 export default App;
