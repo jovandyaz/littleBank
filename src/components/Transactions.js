@@ -4,11 +4,7 @@ import { Transaction } from './Transaction';
 export class Transactions extends Component {
     render() {
         const data = this.props.data
-        return (data.map(d =>
-            <div key={d._id}>
-                <Transaction data = {d}/>
-            </div>)
-        )
+        return data.map(d =><div key={d._id}><Transaction data = {d}/></div>)
     }
 }
 

@@ -10,34 +10,21 @@ export class Operations extends Component {
         }
     }
 
-    catchAmount = event => {
-        this.setState({
-            amount: event.target.value
-        })
-    }
-
-    catchVendor = event => {
-        this.setState({
-            vendor: event.target.value
-        })
-    }
-
-    catchCategory = event => {
-        this.setState({
-            category: event.target.value
-        })
-    }
+    catchAmount = event => this.setState({ amount: event.target.value })
+    catchVendor = event => this.setState({ vendor: event.target.value })
+    catchCategory = event => this.setState({ category: event.target.value })
 
     doDeposit = () => {
         console.log("doing deposit")
-        //this.props.updateData({ amount: Number(this.state.amount), vendor: this.state.vendor, category: this.state.category })
-        this.props.postData({ amount: Number(this.state.amount), vendor: this.state.vendor, category: this.state.category })
+        let newD = { amount: Number(this.state.amount), vendor: this.state.vendor, category: this.state.category }
+        this.props.postData(newD)
+        this.props.updateData(newD)
     }
-
     doWithdraw = () => {
         console.log("doing withdraw")
-        //this.props.updateData({ amount: Number(-this.state.amount), vendor: this.state.vendor, category: this.state.category })
-        this.props.postData({ amount: Number(-this.state.amount), vendor: this.state.vendor, category: this.state.category })
+        let newWD = { amount: Number(-this.state.amount), vendor: this.state.vendor, category: this.state.category }
+        this.props.postData(newWD)
+        this.props.updateData(newWD)
     }
 
     render() {
