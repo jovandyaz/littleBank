@@ -18,13 +18,11 @@ export class Operations extends Component {
         console.log("doing deposit")
         let newD = { amount: Number(this.state.amount), vendor: this.state.vendor, category: this.state.category }
         this.props.postData(newD)
-        this.props.updateData(newD)
     }
     doWithdraw = () => {
         console.log("doing withdraw")
         let newWD = { amount: Number(-this.state.amount), vendor: this.state.vendor, category: this.state.category }
         this.props.postData(newWD)
-        this.props.updateData(newWD)
     }
 
     render() {

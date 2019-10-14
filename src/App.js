@@ -13,27 +13,17 @@ class App extends Component {
     }
   }
 
-  async getData() {
-    return axios.get("http://localhost:8080/transactions")
+  getData = async () => {return axios.get("http://localhost:8080/transactions")}
+
+  componentDidMount = async () => {
+    const response = await this.getData()
+    this.setState({ data: response.data })
+    console.log(this.state.data)
   }
 
-  async componentDidMount() { 
-    const trans = await this.getData()
-    this.setState({data: trans.data})
-  }
-
-  async postData(dataP) {
+  postData = async (dataP) => {
     await axios.post("http://localhost:8080/transaction", dataP)
-    //await this.componentDidMount()
-  }
-
-  updateData = (data) => {
-    console.log("data", data)
-    let newData = [...this.state.data]
-    newData.push(data)
-    this.setState({
-      data: newData
-    }, () => console.log(this.state.data))
+    this.componentDidMount()
   }
 
   getBalance = () => {
@@ -50,7 +40,7 @@ class App extends Component {
           <div id="main-links">
             <Redirect to="/" />
           </div>
-          <Route path="/" exact render={() => <Operations data={this.state.data} getData={this.getData} postData={this.postData} updateData={this.updateData} />} />
+          <Route path="/" exact render={() => <Operations data={this.state.data} getData={this.getData} postData={this.postData} />} />
           <h3>${this.getBalance()}</h3>
           <Route path="/" exact render={() => <Transactions data={this.state.data} />} />
         </div>
