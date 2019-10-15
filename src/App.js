@@ -13,17 +13,19 @@ class App extends Component {
     }
   }
 
-  getData = async () => {return axios.get("http://localhost:8080/transactions")}
+  getData = async () => {
+    const response = await axios.get("http://localhost:8080/transactions")
+    this.setState({ data: response.data })
+    console.log(this.state.data) 
+  }
 
   componentDidMount = async () => {
-    const response = await this.getData()
-    this.setState({ data: response.data })
-    console.log(this.state.data)
+    this.getData()
   }
 
   postData = async (dataP) => {
     await axios.post("http://localhost:8080/transaction", dataP)
-    this.componentDidMount()
+    this.getData()
   }
 
   getBalance = () => {
