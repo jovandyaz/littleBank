@@ -16,15 +16,20 @@ class App extends Component {
   getData = async () => {
     const response = await axios.get("http://localhost:8080/transactions")
     this.setState({ data: response.data })
-    console.log(this.state.data) 
+    console.log("gettting data...:", this.state.data)
   }
 
-  componentDidMount = async () => {
+  componentDidMount = () => {
     this.getData()
   }
 
   postData = async (dataP) => {
     await axios.post("http://localhost:8080/transaction", dataP)
+    this.getData()
+  }
+
+  deleteData = async (id) => {
+    await axios.delete(`http://localhost:8080/transaction/${id}`)
     this.getData()
   }
 
@@ -40,11 +45,11 @@ class App extends Component {
         <div className="App">
           <div id="home-background">Expenses</div>
           <div id="main-links">
-            <Redirect to="/" />
+            {/* <Redirect to="/" /> */}
           </div>
           <Route path="/" exact render={() => <Operations data={this.state.data} getData={this.getData} postData={this.postData} />} />
           <h3>${this.getBalance()}</h3>
-          <Route path="/" exact render={() => <Transactions data={this.state.data} />} />
+          <Route path="/" exact render={() => <Transactions data={this.state.data} deleteData={this.deleteData} />} />
         </div>
       </Router>
     )

@@ -10,15 +10,14 @@ export class Operations extends Component {
         }
     }
 
-    catchAmount = event => this.setState({ amount: event.target.value })
-    catchVendor = event => this.setState({ vendor: event.target.value })
-    catchCategory = event => this.setState({ category: event.target.value })
+    updateHandler = event => this.setState({ [event.target.name]: event.target.value })
 
     doDeposit = () => {
         console.log("doing deposit")
         let newD = { amount: Number(this.state.amount), vendor: this.state.vendor, category: this.state.category }
         this.props.postData(newD)
     }
+
     doWithdraw = () => {
         console.log("doing withdraw")
         let newWD = { amount: Number(-this.state.amount), vendor: this.state.vendor, category: this.state.category }
@@ -29,9 +28,9 @@ export class Operations extends Component {
         return (
             <div>
                 <div>
-                    <input type="number" placeholder="Amount" value={this.state.amount} onChange={this.catchAmount} />
-                    <input type="text" placeholder="Vendor" value={this.state.vendor} onChange={this.catchVendor} />
-                    <input type="text" placeholder="Category" value={this.state.category} onChange={this.catchCategory} />
+                    <input type="number" placeholder="Amount" name="amount" value={this.state.name} onChange={this.updateHandler} />
+                    <input type="text" placeholder="Vendor" name="vendor" value={this.state.name} onChange={this.updateHandler} />
+                    <input type="text" placeholder="Category" name="category" value={this.state.name} onChange={this.updateHandler} />
                 </div>
                 <div>
                     <button onClick={this.doDeposit}>Deposit</button>
