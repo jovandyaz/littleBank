@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom'
 import axios from 'axios'
 import { Transactions } from './components/Transactions';
 import { Operations } from './components/Operations';
@@ -43,13 +43,17 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-          <div id="home-background">Expenses</div>
+          <h1 id="home-background">Expenses</h1>
+          <h3>Balance: ${this.getBalance()}</h3>
+
           <div id="main-links">
-            {/* <Redirect to="/" /> */}
+            <Link to="/" >Home </Link>
+            <Link to="/transactions"> Transactions</Link>
+            <Redirect to="/" />
           </div>
+
           <Route path="/" exact render={() => <Operations data={this.state.data} getData={this.getData} postData={this.postData} />} />
-          <h3>${this.getBalance()}</h3>
-          <Route path="/" exact render={() => <Transactions data={this.state.data} deleteData={this.deleteData} />} />
+          <Route path="/transactions" exact render={() => <Transactions data={this.state.data} deleteData={this.deleteData} />} />
         </div>
       </Router>
     )
